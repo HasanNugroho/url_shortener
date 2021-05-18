@@ -74,6 +74,6 @@ class UrlController extends Controller
     // make code qr
     public function code(Request $request)
     {
-        return \QrCode::size(150)->generate($request->code);
+        return $request->code;
     }
 }

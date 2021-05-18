@@ -4,6 +4,7 @@ import axios from 'axios'
 import Ilustrasi from '../asset/ilustrasi.svg'
 import { FaRegHandScissors } from "react-icons/fa";
 import { HiExclamationCircle } from "react-icons/hi";
+import QRCode from 'react-qr-code'
 // FaRegCopy
 export default class home extends Component {
     constructor(props) {
@@ -57,13 +58,11 @@ export default class home extends Component {
     const data = {
         code: this.state.short
     }
-
     axios.post('http://127.0.0.1:8000/code', data)
     .then(res => {
         const qrcode = res.data;
         this.setState({ qrcode })
     })
-    // console.log(this.state.short)
     }
 
     copyCodeToClipboard = () => {
@@ -101,10 +100,7 @@ export default class home extends Component {
                                         </Card.Title>
                                         <Accordion.Collapse eventKey="1">
                                         <Card.Body>
-                                        <Form.Control size="lg" type="text" name="link_custom" placeholder="https://www.youtube.com/" value={this.state.value} onChange={this.handleChange} />
-                                        <Form.Text className="text-muted">
-                                        link baru
-                                        </Form.Text>
+                                        <Form.Control size="lg" type="text" name="link_custom" placeholder="/laguku..." value={this.state.value} onChange={this.handleChange} />
                                         </Card.Body>
                                         </Accordion.Collapse>
                                     </Accordion>
@@ -127,21 +123,23 @@ export default class home extends Component {
                             <Card.Body>
                                 <div className="teks-3">Good! Now you can copy and share easily </div>
                                 <div className="teks-4 mt-4">Link-mu berhasil dibikin pendek </div>
+                                <Form onSubmit={this.handleQr}>
+                                <div className="align-items-center mt-4">
+                                    <Form.Control className="teks-form-copy" ref={(textarea) => this.textArea = textarea} type="text" value={this.state.short} onClick={() => this.copyCodeToClipboard()} readOnly />
+                                </div>
                                 {
                                 this.state.copySuccess?
                                     <Alert variant="success">
                                         Link Berhasil Dicopy
                                     </Alert>:null
                                 }
-                                <Form onSubmit={this.handleQr}>
-                                <div className="align-items-center mt-4">
-                                    <Form.Control className="teks-form-copy" ref={(textarea) => this.textArea = textarea} type="text" value={this.state.short} onClick={() => this.copyCodeToClipboard()} readOnly />
-                                </div>
                                     {
                                     this.state.qrcode?
-                                        <div className="mt-4">
-                                            {this.state.qrcode}
-                                        </div>:null
+                                        <div className="mt-4 text-center">
+                                            <QRCode value={this.state.qrcode} size="200" level="H" includeMargin="true" />
+                                            
+                                        </div>
+                                        :null
                                     }
                                     <Button variant="success" size="lg" className="mt-4 custom-botton" type="submit">
                                         Code Qr 
