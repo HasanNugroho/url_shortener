@@ -101,6 +101,16 @@
     letter-spacing: -0.25px;
     color: #FF0000;
 }
+.text-success{
+    font-family: Karla;
+    font-size: 1.1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: -0.25px;
+    text-align: left;
+    color: #22BE7B;
+}
 .custom-botton{
     background-color: #3F725C;
     font-family: Karla;

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Card,Form,Button,Alert,Row,Col,Accordion } from 'react-bootstrap'
+import { Card,Form,Button,Row,Col,Accordion,InputGroup } from 'react-bootstrap'
 import axios from 'axios'
 import Ilustrasi from '../asset/ilustrasi.svg'
 import { FaRegHandScissors } from "react-icons/fa";
 import { HiExclamationCircle } from "react-icons/hi";
+import { FaRegCopy, FaRegCheckCircle } from "react-icons/fa";
 import QRCode from 'react-qr-code'
 // FaRegCopy
 export default class home extends Component {
@@ -13,8 +14,9 @@ export default class home extends Component {
             link: '',
             link_custom: '',
             copySuccess: false,
-            code: ''
+            code: '',
         };
+        this.baseState = this.state
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -24,7 +26,7 @@ export default class home extends Component {
     
     handleChange(event) {
     this.setState({
-        [event.target.name]: event.target.value
+        [event.target.name]: event.target.value,
     });
     }
     
@@ -36,6 +38,7 @@ export default class home extends Component {
 
     handleSubmit(event) {
     event.preventDefault()
+
     const data = {
         link: this.state.link,
         link_custom: this.state.link_custom
@@ -45,10 +48,19 @@ export default class home extends Component {
     .then(res => {
         if(res.data.status === false){
             const gagal = res.data;
-            this.setState({ gagal })
+            this.setState({ 
+                gagal,
+                qrcode: false,
+                short: false,
+            })
         }else{
             const short = res.data;
-            this.setState({ short })
+            this.setState({
+                short,
+                copySuccess: false,
+                gagal: false,
+                qrcode: false,
+            })
         }
     })
     }
@@ -69,7 +81,10 @@ export default class home extends Component {
     const el = this.textArea
     el.select()
     document.execCommand("copy")
-    this.setState({copySuccess: true})
+    this.setState({
+        copySuccess: true,
+        // value: this.baseState,
+    })
     }
     
     render() {
@@ -77,7 +92,11 @@ export default class home extends Component {
             <div className="mt-5">
                 <Row>
                     <Col xs={12} md={6}>
-                        <img className="align-self-center ilustrasi" src={Ilustrasi} alt="Ilustrasi" />
+                        <img 
+                        className="align-self-center ilustrasi" 
+                        src={Ilustrasi} 
+                        alt="Ilustrasi" 
+                        />
                     </Col>
                     <Col xs={12} md={6}>
                         <div className="teks-1 flex">
@@ -88,8 +107,17 @@ export default class home extends Component {
                         </div>
                         <div className="mt-4">
                             <Form onSubmit={this.handleSubmit}>
-                                <Form.Group controlId="formBasicEmail">
-                                <Form.Control size="lg" type="text" name="link" className="teks-form" placeholder="Paste link kamu disini untuk memulai...." value={this.state.value} onChange={this.handleChange} />
+                                <Form.Group 
+                                controlId="formBasicEmail">
+                                    <Form.Control 
+                                        size="lg" 
+                                        type="text" 
+                                        name="link" 
+                                        className="teks-form" 
+                                        placeholder="Paste link kamu disini untuk memulai...." 
+                                        value={this.state.value} 
+                                        onChange={this.handleChange} 
+                                        required />
                                 </Form.Group>
                                 <div className="mt-4">
                                     <Accordion defaultActiveKey="0">
@@ -100,7 +128,7 @@ export default class home extends Component {
                                         </Card.Title>
                                         <Accordion.Collapse eventKey="1">
                                         <Card.Body>
-                                        <Form.Control size="lg" type="text" name="link_custom" placeholder="/laguku..." value={this.state.value} onChange={this.handleChange} />
+                                        <Form.Control size="lg" type="text" name="link_custom" placeholder="linkmu" value={this.state.value} onChange={this.handleChange} />
                                         </Card.Body>
                                         </Accordion.Collapse>
                                     </Accordion>
@@ -124,20 +152,37 @@ export default class home extends Component {
                                 <div className="teks-3">Good! Now you can copy and share easily </div>
                                 <div className="teks-4 mt-4">Link-mu berhasil dibikin pendek </div>
                                 <Form onSubmit={this.handleQr}>
-                                <div className="align-items-center mt-4">
-                                    <Form.Control className="teks-form-copy" ref={(textarea) => this.textArea = textarea} type="text" value={this.state.short} onClick={() => this.copyCodeToClipboard()} readOnly />
-                                </div>
+                                    <div className="align-items-center mt-4">
+                                    <Form.Group as={Col}>
+                                        <InputGroup>
+                                            <Form.Control
+                                                className="teks-form-copy" 
+                                                ref={(textarea) => this.textArea = textarea} 
+                                                type="text" 
+                                                value={this.state.short} 
+                                                onClick={() => this.copyCodeToClipboard()} 
+                                                readOnly
+                                            />
+                                            <InputGroup.Prepend>
+                                                <InputGroup.Text>
+                                                    <FaRegCopy icon="copy"/>
+                                                </InputGroup.Text>
+                                            </InputGroup.Prepend>
+                                        </InputGroup>
+                                    </Form.Group>
+                                    </div>
                                 {
                                 this.state.copySuccess?
-                                    <Alert variant="success">
-                                        Link Berhasil Dicopy
-                                    </Alert>:null
+                                <div className="text-success">
+                                    <FaRegCheckCircle />
+                                    Link berhasil dicopy
+                                </div>:null
                                 }
                                     {
                                     this.state.qrcode?
                                         <div className="mt-4 text-center">
-                                            <QRCode value={this.state.qrcode} size="200" level="H" includeMargin="true" />
-                                            
+                                            <QRCode value={this.state.qrcode} size="200" bgColor="#ffffff" level="H" />
+                                            <div className="text-form">Screenshot segera!!!</div>
                                         </div>
                                         :null
                                     }

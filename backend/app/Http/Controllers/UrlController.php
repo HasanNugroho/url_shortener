@@ -15,25 +15,6 @@ class UrlController extends Controller
     }
     public function store(Request $request)
     {
-        // Validasi
-        $request->validate([
-            'link' => 'required'
-        ]);
-
-        // Kondisi
-        $link_db = url::where('link', $request->link)->first();
-        
-        //link sudah terdaftar
-        if($link_db){
-            $balasan = [
-                'status' => false,
-                'message' => 'waduh, link udah pernah dipakai nih, coba yang lain ya..'
-            ];
-            return response()->json($balasan);
-        }
-        
-        // link belum terdaftar
-        else{
             $url  = \URL::to('/');
             if($request->link_custom){
 
@@ -69,7 +50,6 @@ class UrlController extends Controller
                 ]);
             }
             return response()->json($url.'/'.$sublink);
-        }
     }
     // make code qr
     public function code(Request $request)

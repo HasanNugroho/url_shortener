@@ -3,7 +3,6 @@ import { Navbar,Nav } from 'react-bootstrap'
 import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 import { FaLink } from "react-icons/fa";
 import Home from '../pages/Home'
-import Hasil from '../pages/Hasil'
 
 export default function Navigation() {
     return (
@@ -16,7 +15,7 @@ export default function Navigation() {
             <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                         <Nav.Link as={Link} to ="/">Donate to developer</Nav.Link>
-                        <Nav.Link as={Link} to ="/hasil">See on Github</Nav.Link>
+                        <Nav.Link as={Link} to ={{ pathname: "https://github.com/HasanNugroho/url_shortener.git" }} target="_blank" >See on Github</Nav.Link>
                     </Nav>
             </Navbar.Collapse>
             </div>
@@ -27,11 +26,11 @@ export default function Navigation() {
                     <Home />
                     </div>
                 </Route>
-                <Route path="/hasil">
+                {/* <Route path="">
                     <div className="container">
                     <Hasil />
                     </div>
-                </Route>
+                </Route> */}
             </Switch>
             </Router>
         </div>
