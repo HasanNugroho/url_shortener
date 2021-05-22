@@ -8,25 +8,23 @@ export default function Navigation() {
     return (
         <div>
             <Router>
-            <Navbar bg="secondary" className="navbar-custom" variant="light" expand="xl">
+            <Navbar bg="secondary" className="navbar-custom" variant="light" expand="md">
             <div className="container">
-            <Navbar.Brand href="#home"><FaLink /> Pendekin.io</Navbar.Brand>
+            <Navbar.Brand href="#home"><FaLink /> Pendekin</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
-                        <Nav.Link as={Link} to ="/">Donate to developer</Nav.Link>
-                        <Nav.Link as={Link} to ={{ pathname: "https://github.com/HasanNugroho/url_shortener.git" }} target="_blank" >See on Github</Nav.Link>
+                        <Nav.Link as={Link} to = {{ pathname: "https://saweria.co/hasannugroho" }} target="_blank">Donate to developer</Nav.Link>
+                        <Nav.Link as={Link} to = {{ pathname: "https://github.com/HasanNugroho/url_shortener.git" }} target="_blank">See on Github</Nav.Link>
                     </Nav>
             </Navbar.Collapse>
             </div>
             </Navbar>
             <Switch>
                 <Route exact path="/">
-                    <div className="container">
                     <Home />
-                    </div>
                 </Route>
-                {/* <Route path="">
+                {/* <Route path="/https://github.com/HasanNugroho/url_shortener.git">
                     <div className="container">
                     <Hasil />
                     </div>

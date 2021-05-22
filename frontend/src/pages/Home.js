@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card,Form,Button,Row,Col,Accordion,InputGroup } from 'react-bootstrap'
+import { Card, Form, Button, Accordion, InputGroup } from 'react-bootstrap'
 import axios from 'axios'
 import Ilustrasi from '../asset/ilustrasi.svg'
 import { FaRegHandScissors } from "react-icons/fa";
@@ -83,23 +83,22 @@ export default class home extends Component {
     document.execCommand("copy")
     this.setState({
         copySuccess: true,
-        // value: this.baseState,
     })
     }
     
     render() {
         return (
-            <div className="mt-5">
+            <div className="mt-5 container">
                 <Row>
-                    <Col xs={12} md={6}>
+                    <Col sm={12} md={6}>
                         <img 
                         className="align-self-center ilustrasi" 
                         src={Ilustrasi} 
                         alt="Ilustrasi" 
                         />
                     </Col>
-                    <Col xs={12} md={6}>
-                        <div className="teks-1 flex">
+                    <Col sm={12} md={6}>
+                        <div className="teks-1">
                             When shorter is <p className="color-green">better</p>
                         </div>
                         <div className="teks-2 mt-4 color-grey">

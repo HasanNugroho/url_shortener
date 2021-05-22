@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 
 class UrlController extends Controller
 {
-    public function access($link_short)
+    public function access($slug)
     {
-        $link_access = url::where('link_short', $link_short)->first();
+        $link_access = url::where('slug', $slug)->first();
         // dd($link_access->link);
         return redirect()->away($link_access->link);
     }
@@ -19,7 +19,7 @@ class UrlController extends Controller
             if($request->link_custom){
 
                 // kondisi link custom sudah terdaftar
-                $url_custom = url::where('link_short', $request->link_custom)->first();
+                $url_custom = url::where('slug', $request->link_custom)->first();
                 if($url_custom){
                     $balasan = [
                         'status' => false,
@@ -30,23 +30,22 @@ class UrlController extends Controller
                 
                 // kondisi link custom belum terdaftar
                 else{
-                $sublink = $request->link_custom;
+                $sublink = Str::slug($request->link_custom);
                 
                 url::create([
                     'link'=>$request->link,
-                    'link_short'=>$request->link_custom
+                    'slug'=>Str::slug($request->link_custom)
                 ]);
             }
             }
             
             // link random
             else{
-                $link_short = Str::random(6);
-                $sublink = $link_short;
+                $sublink = Str::random(6);
 
                 url::create([
                     'link'=>$request->link,
-                    'link_short'=>$link_short
+                    'slug'=>$sublink
                 ]);
             }
             return response()->json($url.'/'.$sublink);
